@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<odoo>
+
+  <record id="ec_barcode_sale_order_inherited_form_view" model="ir.ui.view">
+      <field name="name">sale.order.inherited.form.view</field>
+      <field name="model">sale.order</field>
+      <field name="inherit_id" ref="sale.view_order_form"/>
+      <field name="arch" type="xml">
+          <xpath expr="//notebook/page/field[@name='order_line']/list/field[@name='product_template_id']" position="replace">
+              <field name="product_template_id" string="Product" optional="show" invisible="0"
+                  readonly = "product_updatable == False"
+                  required = "display_type == False" context="{
+                       'order_line_id':context.get('active_id'),
+                       'create_date_model':'sale.order.line',
+                       'partner_id': parent.partner_id,
+                       'quantity': product_uom_qty,
+                       'pricelist': parent.pricelist_id,
+                       'uom':product_uom,
+                       'company_id': parent.company_id,
+                       'default_list_price': price_unit,
+                       'default_description_sale': name,
+                   }"
+                   options="{'no_open': True, 'no_create': True, 'no_quick_create': True}"
+                   domain="[('sale_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]"
+                   widget="custom_sale_order_line_product_field"
+                   />
+          </xpath>
+      </field>
+  </record>
+
+
+</odoo>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <record id="product_barcode_view" model="ir.ui.view">
+    <field name="name">Product Barcode</field>
+    <field name="model">product.barcode</field>
+    <field name="arch" type="xml">
+      <form>
+        <group>
+          <field name="product_id" invisible="1"/>
+          <field name="barcode" />
+          <field name="company_id" invisible="1"/>
+          <field name="product_uom"
+            domain="[('id','in',uom_ids_allowed)]"
+             groups="uom.group_uom" optional="show"/>
+        </group>
+      </form>
+    </field>
+  </record>
+
+
+
+  <record id="ec_barcode_product_product_search_view" model="ir.ui.view">
+      <field name="name">ec_barcode.product.product.search</field>
+      <field name="model">product.product</field>
+      <field name="mode">primary</field>
+      <field name="inherit_id" ref="product.product_search_form_view"/>
+      <field name="arch" type="xml">
+          <field name="name" position="attributes">
+            <attribute name="filter_domain">['|', '|','|', ('default_code', 'ilike', self), ('name', 'ilike', self), ('barcode', 'ilike', self),('product_barcode.barcode', 'ilike', self)]</attribute>
+            <!-- <attribute name="filter_domain">[('default_code', 'ilike', self), ('name', 'ilike', self), ('barcode', 'ilike', self), ('product_barcode.barcode', 'ilike', self)]</attribute> -->
+
+          </field>
+
+          <filter name="combo" position="after">
+              <separator/>
+              <filter string="Codigo Barras" name="barcdes" domain="[('product_barcode.barcode', 'ilike', self)]"/>
+          </filter>
+      </field>
+  </record>
+
+
+</odoo>

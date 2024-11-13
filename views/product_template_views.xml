@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+  		<record id="product_template_barcode_form_view_inherit" model="ir.ui.view">
+  			<field name="name">product.template.form.view.inherite</field>
+  			<field name="model">product.template</field>
+  			<field name="inherit_id" ref="product.product_template_only_form_view"/>
+  			<field name="arch" type="xml">
+  				<xpath expr="//field[@name='default_code']" position="after">
+  					<field name="company_barcode_id" invisible="1"/>
+  				</xpath>
+  				<page name="variants" position="after">
+  					<page string="Codigos de Barra" editable="True" invisible="product_variant_count > 1">
+  						<field name="product_barcode" nolabel="1" context="{'search_by_vat': True}">
+  							<list>
+  								<field name="product_tmpl_id" column_invisible="1" context="{'default_product_tmpl_id': parent.id,}"/>
+  								<field name="product_id" column_invisible="1"/>
+  								<field name="barcode" />
+                  <field name="product_uom"
+                    domain="[('id','in',uom_ids_allowed)]"
+                    context="{'default_product_uom':parent.uom_id}"
+                     groups="uom.group_uom" optional="show"/>
+  							</list>
+  						</field>
+  					</page>
+  				</page>
+  			</field>
+  		</record>
+
+      <record id="ec_barcode_product_template_search_view" model="ir.ui.view">
+          <field name="name">ec_barcode.product.template.search.inherit.stock</field>
+          <field name="model">product.template</field>
+          <field name="inherit_id" ref="product.product_template_search_view"/>
+          <field name="arch" type="xml">
+              <filter name="combo" position="after">
+                  <filter name="codigos_barra" string="Codigos de Barra" domain="[('product_barcode.barcode','ilike', self)]"/>
+              </filter>
+          </field>
+      </record>
+
+      <!-- <record id="ec_barcode_product_template_search_view" model="ir.ui.view">
+          <field name="name">ec_barcode.product.template.search</field>
+          <field name="model">product.template</field>
+          <field name="mode">primary</field>
+          <field name="inherit_id" ref="product.product_template_search_view"/>
+          <field name="arch" type="xml">
+              <field name="name" position="attributes">
+                <attribute name="filter_domain">['|', '|', '|','|',('default_code', 'ilike', self), ('name', 'ilike', self), ('barcode', 'ilike', self), ('product_barcode.barcode', 'ilike', self)]</attribute>
+
+              </field>
+
+              <filter name="combo" position="after">
+                  <separator/>
+                  <filter string="Codigo Barras" name="barcdes" domain="[('product_barcode.barcode', 'ilike', self)]"/>
+              </filter>
+          </field>
+      </record> -->
+
+
+
+</odoo>
