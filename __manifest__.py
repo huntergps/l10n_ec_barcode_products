@@ -16,7 +16,7 @@
     'depends': [
         'l10n_ec_base',
         'sale',
-        'purchase'
+        'purchase',
     ],
     'data': [
         'security/ir.model.access.csv',
