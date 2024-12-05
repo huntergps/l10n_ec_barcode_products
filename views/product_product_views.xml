@@ -26,15 +26,15 @@
       <field name="inherit_id" ref="product.product_search_form_view"/>
       <field name="arch" type="xml">
           <field name="name" position="attributes">
-            <attribute name="filter_domain">['|', '|','|', ('default_code', 'ilike', self), ('name', 'ilike', self), ('barcode', 'ilike', self),('product_barcode.barcode', 'ilike', self)]</attribute>
-            <!-- <attribute name="filter_domain">[('default_code', 'ilike', self), ('name', 'ilike', self), ('barcode', 'ilike', self), ('product_barcode.barcode', 'ilike', self)]</attribute> -->
-
-          </field>
+            <attribute name="filter_domain">
+              ['|', '|', '|',  '|', ('default_code', 'ilike', self), ('product_variant_ids.default_code', 'ilike', self),('name', 'ilike', self), ('barcode', 'ilike', self),('product_barcode.barcode', 'ilike', self)]
+            </attribute>
 
           <filter name="combo" position="after">
               <separator/>
               <filter string="Codigo Barras" name="barcdes" domain="[('product_barcode.barcode', 'ilike', self)]"/>
           </filter>
+        </field>
       </field>
   </record>
 

@@ -34,11 +34,9 @@ class Barcode(models.Model):
         default=_get_default_uom_id, required=True)
     uom_name = fields.Char(string='Nombre de Unidad de Medida', related='product_uom.name', readonly=True)
 
+    uom_ids_allowed = fields.Many2many('uom.uom', compute='_compute_uom_ids_allowed', string='UdM Permitidos', store=True)
 
-
-    uom_ids_allowed = fields.Many2many('uom.uom', compute='_compute_uom_ids_allowed', string='UdM Permitidos')
-
-    @api.onchange('product_id')
+    @api.depends('product_id')
     def _compute_uom_ids_allowed(self):
         for line in self:
             if line.product_id:
@@ -48,6 +46,7 @@ class Barcode(models.Model):
                 line.uom_ids_allowed = uom_records
 
 
+
     _sql_constraints = [
-        ('uniq_barcode', 'unique(barcode)', "A barcode can only be assigned to one product !"),
+        ('uniq_barcode', 'unique(barcode)', "Un código de barras solo se puede asignar a un producto!"),
     ]

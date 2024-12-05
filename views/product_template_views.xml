@@ -11,6 +11,7 @@
   				</xpath>
   				<page name="variants" position="after">
   					<page string="Codigos de Barra" editable="True" invisible="product_variant_count > 1">
+
   						<field name="product_barcode" nolabel="1" context="{'search_by_vat': True}">
   							<list>
   								<field name="product_tmpl_id" column_invisible="1" context="{'default_product_tmpl_id': parent.id,}"/>
@@ -22,6 +23,28 @@
                      groups="uom.group_uom" optional="show"/>
   							</list>
   						</field>
+
+              <field name="pricelist_items"
+                    context="{'default_base':'list_price','form_view_ref':'l10n_ec_barcode_products.ec_product_pricelist_item_form_view'}"
+                    >
+                  <list string="Precios de Ventas">
+                      <field name="pricelist_id" context="{'default_product_tmpl_id': parent.id,}"/>
+                      <field name="uom_ids_allowed" column_invisible="1"/>
+                      <field name="uom_id"
+                        domain="[('id','in',uom_ids_allowed)]"
+                         groups="uom.group_uom"/>
+                      <field name="price" />
+                      <field name="min_quantity"/>
+                      <field name="date_start" optional="show"/>
+                      <field name="date_end" optional="show"/>
+                      <field name="base" column_invisible="True"/>
+                      <field name="price_discount" column_invisible="True"/>
+                      <field name="applied_on" column_invisible="True"/>
+                      <field name="compute_price" />
+                  </list>
+              </field>
+
+
   					</page>
   				</page>
   			</field>

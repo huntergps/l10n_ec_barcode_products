@@ -54,20 +54,6 @@ export class ProductLabelSectionAndNoteFieldAutocompleteCodBar extends ProductLa
         this.codabarService = useService('codabarService');
     }
 
-    // mapRecordToOption(result) {
-    //     return {
-    //         value: result[0],
-    //         label: result[1] ? result[1].split("\n")[0] : _t("Sin nombre"),
-    //         displayName: result[1],
-    //         codabar_uom: result[2] || null,
-    //         codabar_uom: result[2] || null,
-    //         classList: this.props.getOptionClassnames({
-    //             id: result[0],
-    //             display_name: result[1],
-    //         }),
-    //     };
-    // }
-
     mapRecordToOption(result) {
         const [id, displayName, extraData] = result;
         return {
@@ -96,26 +82,7 @@ export class ProductLabelSectionAndNoteFieldAutocompleteCodBar extends ProductLa
     }
 
 
-    // onSelect(option, params = {}) {
-    //     console.log('onSelect');
-    //     console.log("codabar_uom = ", option.codabar_uom);
-    //
-    //     if (option.action) {
-    //         return option.action(params);
-    //     }
-    //
-    //     const record = {
-    //         id: option.value,
-    //         display_name: option.displayName,
-    //     };
-    //
-    //     // this.props.update(record, params);
-    //
-    //     // Actualizar el servicio con el valor de codabar_uom
-    //     if (option.codabar_uom) {
-    //         this.codabarService.setCodabarUom(option.codabar_uom);
-    //     }
-    // }
+
 }
 
 
@@ -148,24 +115,12 @@ export class CustomSaleOrderLineProductField extends SaleOrderLineProductField {
         const codabar_uom = this.codabar_uom;
         if (codabar_uom) {
             await this.props.record.update({
-                product_uom: codabar_uom,
+                product_uom_id: codabar_uom,
             });
             this.codabar_uom = null;
         }
     }
-    // async _onProductTemplateUpdate() {
-    //     await super._onProductTemplateUpdate(...arguments);
-    //
-    //     const codabar_uom = this.codabar_uom;
-    //     console.log(codabar_uom);
-    //     // if (codabar_uom) {
-    //     //     await this.props.record.update({
-    //     //         product_uom: [codabar_uom, ''],
-    //     //         barcode_uom_id: [codabar_uom, ''],
-    //     //     });
-    //     //     this.codabar_uom = null;
-    //     // }
-    // }
+
 }
 
 // Registrar el componente
